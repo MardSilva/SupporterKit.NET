@@ -35,7 +35,7 @@ public static class Endpoints
             return Results.Redirect("https://www.patreon.com/oauth2/authorize?response_type=code&client_id=" +
                 Uri.EscapeDataString(options.Patreon.ClientId) + "&redirect_uri=" + Uri.EscapeDataString(options.Patreon.CallbackUri) +
                 "&scope=" + Uri.EscapeDataString("identity identity.memberships campaigns") + "&state=" + attempt.State);
-        }).RequireRateLimiting("sensitive");
+        }).RequireRateLimiting("oauth-start");
         app.MapGet("/auth/patreon/callback", async (HttpContext context, SupporterService service,
             ISupporterProvider provider, TokenService tokens, CancellationToken ct) =>
         {
@@ -55,7 +55,7 @@ public static class Endpoints
             // Replace any previous browser identity with the account just authorized.
             await SignInAsync(context, person.Id);
             return Results.Redirect("/manage");
-        }).RequireRateLimiting("sensitive");
+        }).RequireRateLimiting("oauth-callback");
         app.MapGet("/manage", async (HttpContext context, SupporterService service, SupporterDb db,
             IAntiforgery antiforgery, CancellationToken ct) =>
         {
@@ -91,7 +91,11 @@ public static class Endpoints
             {
                 var auth = await context.AuthenticateAsync("Management");
                 id = auth.Succeeded ? Guid.Parse(auth.Principal!.FindFirstValue(ClaimTypes.NameIdentifier)!) : null;
-                if (id is not null) await antiforgery.ValidateRequestAsync(context);
+                if (id is not null)
+                {
+                    context.User = auth.Principal!;
+                    await antiforgery.ValidateRequestAsync(context);
+                }
             }
             if (id is null) return Results.Problem(statusCode: 401, title: "Autenticação necessária.");
             var update = await context.Request.ReadFromJsonAsync<PublicProfileUpdate>(ct) ?? throw new ArgumentException();

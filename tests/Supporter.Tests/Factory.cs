@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.FileProviders;
 using Supporter.Core;
 using Supporter.Infrastructure;
 
@@ -51,7 +52,8 @@ internal sealed class Factory(string? data = null, bool realOAuth = false, bool 
             {
                 services.RemoveAll<ISupporterProvider>();
                 services.AddSingleton<ISupporterProvider>(sp => new OAuthStub(new FakeProvider(
-                    sp.GetRequiredService<SupporterOptions>(), sp.GetRequiredService<TimeProvider>(), sp.GetRequiredService<IHostEnvironment>())));
+                    sp.GetRequiredService<SupporterOptions>(), sp.GetRequiredService<TimeProvider>(),
+                    new StubEnvironment())));
             }
         });
     }
@@ -60,6 +62,13 @@ internal sealed class Factory(string? data = null, bool realOAuth = false, bool 
         BaseAddress = new Uri("https://supporter.test"),
         AllowAutoRedirect = false
     });
+    private sealed class StubEnvironment : IHostEnvironment
+    {
+        public string EnvironmentName { get; set; } = "Testing";
+        public string ApplicationName { get; set; } = "Tests";
+        public string ContentRootPath { get; set; } = RepoRoot;
+        public IFileProvider ContentRootFileProvider { get; set; } = new NullFileProvider();
+    }
     private sealed class OAuthStub(FakeProvider fake) : ISupporterProvider
     {
         public Task<ProviderIdentity> GetIdentityAsync(string token, CancellationToken ct) => fake.GetIdentityAsync(token, ct);

@@ -105,7 +105,7 @@ public static class SetupFiles
         const string compose = """
         services:
           api:
-            image: supporterkit-api:0.1.0
+            image: supporterkit-api:0.1.1
             container_name: supporterkit-api
             restart: unless-stopped
             environment:
@@ -149,7 +149,7 @@ public static class SetupFiles
 
         Este ZIP contém credenciais. Guarde-o em local privado; não faça commit nem compartilhe.
         Extraia .env, compose.yml e appsettings.Production.json em {{input.InstallDirectory}} na VPS.
-        A imagem supporterkit-api:0.1.0 precisa estar carregada no Docker da VPS, com arquitetura compatível.
+        A imagem supporterkit-api:0.1.1 precisa estar carregada no Docker da VPS, com arquitetura compatível.
         O assistente não publica imagens, cria certificados, altera o Patreon ou configura a VPS.
 
         Antes de iniciar:
@@ -169,7 +169,7 @@ public static class SetupFiles
         Eles criam um certificado de proteção dos dados, sem alterar o HTTPS do Cosmos.
         Não sobrescreva um certificado já usado por uma instalação: ele é necessário para recuperar tokens.
         Confira o usuário da imagem:
-          docker run --rm --entrypoint id supporterkit-api:0.1.0
+          docker run --rm --entrypoint id supporterkit-api:0.1.1
         Ajuste propriedade ou ACL do PFX para permitir leitura somente ao administrador e ao UID app.
 
         No diretório de instalação, valide sem imprimir credenciais:
@@ -208,7 +208,7 @@ public static class SetupFiles
 
         This ZIP contains credentials. Keep it private; do not commit or share it.
         Extract .env, compose.yml and appsettings.Production.json to {{input.InstallDirectory}} on your VPS.
-        The supporterkit-api:0.1.0 image must be loaded into Docker on the VPS, with a compatible architecture.
+        The supporterkit-api:0.1.1 image must be loaded into Docker on the VPS, with a compatible architecture.
         Setup does not publish images, create certificates, change Patreon or configure your VPS.
 
         Before starting:
@@ -228,7 +228,7 @@ public static class SetupFiles
         This certificate protects stored data and does not change the Cosmos HTTPS certificate.
         Do not overwrite a certificate already used by an installation: it is needed to recover tokens.
         Check the image user:
-          docker run --rm --entrypoint id supporterkit-api:0.1.0
+          docker run --rm --entrypoint id supporterkit-api:0.1.1
         Set ownership or an ACL so that only the administrator and the app UID can read the PFX.
 
         From the installation directory, validate without printing credentials:

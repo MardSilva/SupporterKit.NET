@@ -19,6 +19,28 @@ namespace Supporter.Tests;
 public sealed class SupporterTests
 {
     [Fact]
+    public async Task OAuthCallbackHasItsOwnLimitWhenLoginStartsAreThrottled()
+    {
+        await using var factory = new Factory(realOAuth: true);
+        using var browser = factory.Browser();
+        Uri? authorization = null;
+        for (var i = 0; i < 20; i++)
+        {
+            using var start = await browser.GetAsync("/auth/patreon/start");
+            Assert.Equal(HttpStatusCode.Redirect, start.StatusCode);
+            authorization = start.Headers.Location;
+        }
+        using var throttled = await browser.GetAsync("/auth/patreon/start");
+        Assert.Equal(HttpStatusCode.TooManyRequests, throttled.StatusCode);
+        var state = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(authorization!.Query)["state"].ToString();
+        using var callback = await browser.GetAsync("/auth/patreon/callback?code=test&state=" + state);
+        Assert.Equal(HttpStatusCode.Redirect, callback.StatusCode);
+        Assert.Equal("/manage", callback.Headers.Location?.OriginalString);
+        using var replay = await browser.GetAsync("/auth/patreon/callback?code=test&state=" + state);
+        Assert.Equal(HttpStatusCode.BadRequest, replay.StatusCode);
+    }
+
+    [Fact]
     public void SupportDurationUsesCalendarMonthsAndYears()
     {
         var now = DateTimeOffset.Parse("2026-10-10T12:00:00Z");
@@ -126,10 +148,20 @@ public sealed class SupporterTests
         Assert.True((await browser.GetAsync("/manage")).Headers.CacheControl?.NoStore);
     }
 
-    [Fact]
-    public async Task OAuthStateIsBoundToBrowserSingleUseAndExpiring()
+    [Theory]
+    [InlineData("Testing")]
+    [InlineData("Production")]
+    public async Task OAuthStateIsBoundToBrowserSingleUseAndExpiring(string environment)
     {
-        await using var factory = new Factory(realOAuth: true);
+        await using var factory = new Factory(realOAuth: true, environment: environment);
+        if (environment == "Production")
+        {
+            Directory.CreateDirectory(factory.DataPath);
+            using var rsa = RSA.Create(2048);
+            var request = new CertificateRequest("CN=SupporterKit Tests", rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+            using var certificate = request.CreateSelfSigned(DateTimeOffset.UtcNow.AddDays(-1), DateTimeOffset.UtcNow.AddDays(7));
+            File.WriteAllBytes(Path.Combine(factory.DataPath, "keyring.pfx"), certificate.Export(X509ContentType.Pfx, "test-key-password"));
+        }
         using var browser = factory.Browser();
         var start = await browser.GetAsync("/auth/patreon/start");
         var match = Regex.Match(start.Headers.Location!.Query, "state=([^&]+)");
@@ -139,7 +171,17 @@ public sealed class SupporterTests
         Assert.Equal(HttpStatusCode.BadRequest, (await other.GetAsync(callback)).StatusCode);
         Assert.Equal(HttpStatusCode.Redirect, (await browser.GetAsync(callback)).StatusCode);
         Assert.Equal(HttpStatusCode.BadRequest, (await browser.GetAsync(callback)).StatusCode);
-        Assert.Equal(HttpStatusCode.OK, (await browser.GetAsync("/manage")).StatusCode);
+        using var manage = await browser.GetAsync("/manage");
+        Assert.Equal(HttpStatusCode.OK, manage.StatusCode);
+        var manageHtml = await manage.Content.ReadAsStringAsync();
+        var csrf = WebUtility.HtmlDecode(Regex.Match(manageHtml, "data-token=\"([^\"]+)\"").Groups[1].Value);
+        Assert.NotEmpty(await IssueAsync(browser, csrf));
+        using var missingCsrf = await browser.PutAsJsonAsync("/api/v1/supporter/public-profile", new PublicProfileUpdate(true, "Teste"));
+        Assert.Equal(HttpStatusCode.BadRequest, missingCsrf.StatusCode);
+        using var consent = new HttpRequestMessage(HttpMethod.Put, "/api/v1/supporter/public-profile");
+        consent.Headers.Add("X-CSRF-TOKEN", csrf);
+        consent.Content = JsonContent.Create(new PublicProfileUpdate(true, "Teste"));
+        Assert.Equal(HttpStatusCode.NoContent, (await browser.SendAsync(consent)).StatusCode);
         Assert.Equal(HttpStatusCode.NotFound, (await browser.GetAsync("/dev")).StatusCode);
         using var scope = factory.Services.CreateScope();
         var service = scope.ServiceProvider.GetRequiredService<SupporterService>();

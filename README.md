@@ -1,5 +1,7 @@
 # SupporterKit.NET
 
+Versão atual: **0.1.1**. Veja os ajustes no [changelog](CHANGELOG.md).
+
 Bibliotecas .NET para reconhecer apoio e disponibilizar benefícios confirmados a aplicações. A primeira integração é Patreon API v2. O host ASP.NET Core é opcional: quem já tem backend pode referenciar Core e Infrastructure e registrar os serviços nele.
 
 Pagamentos continuam no Patreon. Esta versão reconhece o apoio, sem bloquear funcionalidades do Flow e sem atribuir compras ou licenças permanentes.
@@ -202,4 +204,4 @@ dotnet pack src/Supporter.Infrastructure -c Release -o artifacts/packages
 dotnet pack src/Supporter.Client -c Release -o artifacts/packages
 ```
 
-Os pacotes se chamam SupporterKit.Core, SupporterKit.Infrastructure e SupporterKit.Client, versão 0.1.0. A licença do próprio projeto ainda deve ser escolhida antes de publicação. Nenhum pacote, imagem ou release foi publicado.
+Os pacotes se chamam SupporterKit.Core, SupporterKit.Infrastructure e SupporterKit.Client, versão 0.1.1. A licença do próprio projeto ainda deve ser escolhida antes de publicação. Nenhum pacote, imagem ou release foi publicado.

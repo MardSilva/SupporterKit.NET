@@ -24,6 +24,7 @@ builder.Services.AddAntiforgery(options =>
 {
     options.HeaderName = "X-CSRF-TOKEN";
     options.Cookie.Name = "supporter.csrf";
+    options.Cookie.Path = "/";
     options.Cookie.SecurePolicy = builder.Environment.IsDevelopment() || builder.Environment.IsEnvironment("Testing")
         ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;
 });
@@ -50,6 +51,12 @@ builder.Services.AddRateLimiter(options =>
     options.RejectionStatusCode = 429;
     options.OnRejected = (context, _) =>
     {
+        var request = context.HttpContext;
+        request.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger("Supporter.RateLimit")
+            .LogWarning("Request throttled: path={Path}, policy={Policy}, clientIp={ClientIp}, proxyIp={ProxyIp}",
+                request.Request.Path.Value,
+                request.GetEndpoint()?.Metadata.GetMetadata<EnableRateLimitingAttribute>()?.PolicyName,
+                request.Connection.RemoteIpAddress?.ToString(), request.Items["supporter.proxyIp"]);
         context.HttpContext.Response.Headers.RetryAfter = "60";
         return new ValueTask(Results.Problem(statusCode: 429, title: "Limite de chamadas atingido.").ExecuteAsync(context.HttpContext));
     };
@@ -59,6 +66,10 @@ builder.Services.AddRateLimiter(options =>
     options.AddPolicy("sensitive", context => RateLimitPartition.GetFixedWindowLimiter(
         context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
         _ => new FixedWindowRateLimiterOptions { PermitLimit = 20, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 }));
+    foreach (var policy in new[] { "oauth-start", "oauth-callback" })
+        options.AddPolicy(policy, context => RateLimitPartition.GetFixedWindowLimiter(
+            context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            _ => new FixedWindowRateLimiterOptions { PermitLimit = 20, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 }));
 });
 builder.WebHost.ConfigureKestrel(options => options.Limits.MaxRequestBodySize = 256 * 1024);
 var app = builder.Build();
@@ -72,6 +83,11 @@ var forwarded = new ForwardedHeadersOptions
 forwarded.KnownProxies.Clear();
 forwarded.KnownIPNetworks.Clear();
 foreach (var proxy in settings.TrustedProxies) forwarded.KnownProxies.Add(IPAddress.Parse(proxy));
+app.Use(async (context, next) =>
+{
+    context.Items["supporter.proxyIp"] = context.Connection.RemoteIpAddress?.ToString();
+    await next(context);
+});
 if (settings.TrustedProxies.Length > 0) app.UseForwardedHeaders(forwarded);
 app.UseExceptionHandler();
 app.Use(async (context, next) =>
@@ -92,6 +108,10 @@ app.Use(async (context, next) =>
     catch (System.Text.Json.JsonException) { await Results.Problem(statusCode: 400, title: "JSON inválido.").ExecuteAsync(context); }
     catch (Microsoft.AspNetCore.Antiforgery.AntiforgeryValidationException)
     {
+        context.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger("Supporter.Csrf")
+            .LogWarning("CSRF rejected: path={Path}, cookiePresent={CookiePresent}, headerPresent={HeaderPresent}, authenticated={Authenticated}",
+                context.Request.Path.Value, context.Request.Cookies.ContainsKey("supporter.csrf"),
+                context.Request.Headers.ContainsKey("X-CSRF-TOKEN"), context.User.Identity?.IsAuthenticated == true);
         await Results.Problem(statusCode: 400, title: "Validação CSRF falhou.").ExecuteAsync(context);
     }
     catch (ProviderException) { await Results.Problem(statusCode: 503, title: "Provedor indisponível; tente novamente.").ExecuteAsync(context); }

@@ -54,5 +54,5 @@ public sealed class PatreonOptions
     public string CreatorAccessToken { get; set; } = "";
     public string CreatorRefreshToken { get; set; } = "";
     public string WebhookSecret { get; set; } = "";
-    public string UserAgent { get; set; } = "SupporterKit.NET/0.1";
+    public string UserAgent { get; set; } = "SupporterKit.NET/0.1.1";
 }

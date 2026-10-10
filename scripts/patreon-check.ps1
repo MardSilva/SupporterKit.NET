@@ -17,7 +17,7 @@ $uri = 'https://www.patreon.com/api/oauth2/v2/campaigns?include=tiers&fields%5Bc
 try {
     $response = Invoke-RestMethod -Method Get -Uri $uri -Headers @{
         Authorization = 'Bearer ' + $settings['PATREON_CREATOR_ACCESS_TOKEN']
-        'User-Agent' = 'SupporterKit.NET/0.1.0 (creator setup)'
+        'User-Agent' = 'SupporterKit.NET/0.1.1 (creator setup)'
     } -TimeoutSec 30 -MaximumRedirection 0
 } catch {
     $status = if ($_.Exception.Response) { [int]$_.Exception.Response.StatusCode } else { 0 }

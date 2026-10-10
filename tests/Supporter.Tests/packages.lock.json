@@ -544,13 +544,13 @@
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": "[10.0.10, )",
           "Microsoft.OpenApi": "[2.7.5, )",
-          "SupporterKit.Infrastructure": "[0.1.0, )"
+          "SupporterKit.Infrastructure": "[0.1.1, )"
         }
       },
       "SupporterKit.Client": {
         "type": "Project",
         "dependencies": {
-          "SupporterKit.Core": "[0.1.0, )"
+          "SupporterKit.Core": "[0.1.1, )"
         }
       },
       "SupporterKit.Core": {
@@ -562,7 +562,7 @@
           "Microsoft.EntityFrameworkCore.Sqlite": "[10.0.10, )",
           "SQLitePCLRaw.bundle_e_sqlite3": "[3.0.5, )",
           "SQLitePCLRaw.lib.e_sqlite3": "[3.53.3, )",
-          "SupporterKit.Core": "[0.1.0, )"
+          "SupporterKit.Core": "[0.1.1, )"
         }
       }
     }

@@ -92,7 +92,10 @@ internal static class Pages
         const feedback = document.getElementById('feedback');
         async function send(path, method, body) {
           const response = await fetch(path, {method, headers: {'X-CSRF-TOKEN': csrf, 'Content-Type': 'application/json'}, body: body === undefined ? undefined : JSON.stringify(body)});
-          if (!response.ok) throw new Error('Não foi possível concluir (' + response.status + '). Se a sessão expirou, entre novamente.');
+          if (!response.ok) {
+            const problem = await response.json().catch(() => null);
+            throw new Error(problem?.title || ('Não foi possível concluir (' + response.status + ').'));
+          }
           return response.status === 204 ? null : response.json();
         }
         function action(id, callback) {

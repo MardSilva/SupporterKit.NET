@@ -5,6 +5,7 @@ RUN dotnet restore SupporterKit.NET.slnx --locked-mode
 RUN dotnet publish src/Supporter.Api/Supporter.Api.csproj -c Release -o /out --no-restore -p:UseAppHost=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0.12 AS runtime
+LABEL org.opencontainers.image.version="0.1.1"
 WORKDIR /app
 RUN mkdir -p /data && chown app:app /data
 COPY --from=build /out .

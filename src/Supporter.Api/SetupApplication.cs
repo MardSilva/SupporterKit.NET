@@ -41,7 +41,7 @@ internal static class SetupApplication
             http.BaseAddress = new Uri("https://www.patreon.com");
             http.Timeout = TimeSpan.FromSeconds(30);
             http.MaxResponseContentBufferSize = 8 * 1024 * 1024;
-            http.DefaultRequestHeaders.UserAgent.ParseAdd("SupporterKit.NET/0.1.0 (local setup)");
+            http.DefaultRequestHeaders.UserAgent.ParseAdd("SupporterKit.NET/0.1.1 (local setup)");
         }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { AllowAutoRedirect = false });
         var app = builder.Build();
         app.UseExceptionHandler();
