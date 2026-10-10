@@ -1,5 +1,11 @@
 # Histórico de versões
 
+## 0.1.2 — 2026-10-10
+
+- Adicionado diagnóstico para webhooks recusados: assinatura inválida, evento ou recurso não suportado, campanha diferente e payload inválido. Os logs registram a categoria do erro, sem corpo da notificação, tokens ou assinatura.
+
+Na VPS, um evento de diagnóstico assinado com o segredo do ZIP de instalação recebeu HTTP 202. O teste enviado pelo portal Patreon ainda precisa ser diagnosticado; esse resultado não confirma o fluxo completo de entrega do provedor.
+
 ## 0.1.1 — 2026-10-10
 
 - Separados os limites de chamadas do início do login e do callback Patreon, para que iniciar novas tentativas não esgote o limite do retorno.

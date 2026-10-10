@@ -123,7 +123,11 @@ public static class Endpoints
                 return accepted ? Results.Accepted() : Results.Problem(statusCode: 400, title: "Webhook inválido.");
             }
             catch (Exception ex) when (ex is JsonException or KeyNotFoundException or InvalidOperationException)
-            { return Results.Problem(statusCode: 400, title: "Payload inválido."); }
+            {
+                context.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger("Supporter.Webhook")
+                    .LogWarning("Webhook rejected: reason=payload_invalid, error={ErrorType}", ex.GetType().Name);
+                return Results.Problem(statusCode: 400, title: "Payload inválido.");
+            }
         }).RequireRateLimiting("public").Produces(StatusCodes.Status202Accepted)
             .WithDescription("Corpo JSON:API original até 256 KiB. Headers X-Patreon-Event e X-Patreon-Signature (HMAC-MD5 hexadecimal). Retorna 202 somente após persistir a inbox; processamento assíncrono.");
         app.MapPost("/manage/logout", async (HttpContext context, IAntiforgery antiforgery) =>

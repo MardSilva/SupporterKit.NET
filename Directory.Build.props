@@ -1,6 +1,6 @@
 <Project><PropertyGroup>
 <Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings><TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-<Version>0.1.1</Version><Authors>SupporterKit.NET contributors</Authors>
+<Version>0.1.2</Version><Authors>SupporterKit.NET contributors</Authors>
 <Description>Reusable .NET supporter recognition components.</Description>
 <PackageReadmeFile>README.md</PackageReadmeFile><RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 </PropertyGroup><ItemGroup><None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="/" /></ItemGroup></Project>
