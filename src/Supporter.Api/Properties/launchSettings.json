@@ -1,0 +1,22 @@
+{
+  "profiles": {
+    "SupporterKit": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5080",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Setup": {
+      "commandName": "Project",
+      "commandLineArgs": "--Setup:Enabled=true",
+      "launchBrowser": true,
+      "launchUrl": "setup",
+      "applicationUrl": "http://localhost:5100",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+services:
+  api:
+    image: supporterkit-api:0.1.0
+    build: .
+    ports:
+      - "127.0.0.1:5080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      Supporter__Provider: Fake
+      Supporter__SimulationEnabled: "true"
+      Supporter__PublicOrigin: http://localhost:5080
+      Supporter__FixturesPath: fixtures/profiles.json
+    volumes:
+      - supporter-local-data:/data
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+volumes:
+  supporter-local-data:

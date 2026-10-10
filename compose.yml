@@ -1,0 +1,33 @@
+services:
+  api:
+    image: supporterkit-api:0.1.0
+    build: .
+    ports:
+      - "127.0.0.1:5080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Supporter__Provider: Real
+      Supporter__SimulationEnabled: "false"
+      Supporter__PublicOrigin: ${PUBLIC_ORIGIN:?Set PUBLIC_ORIGIN}
+      Supporter__CampaignId: ${PATREON_CAMPAIGN_ID:?Set PATREON_CAMPAIGN_ID}
+      Supporter__Patreon__ClientId: ${PATREON_CLIENT_ID:?Set PATREON_CLIENT_ID}
+      Supporter__Patreon__ClientSecret: ${PATREON_CLIENT_SECRET:?Set PATREON_CLIENT_SECRET}
+      Supporter__Patreon__CreatorAccessToken: ${PATREON_CREATOR_ACCESS_TOKEN:-}
+      Supporter__Patreon__CreatorRefreshToken: ${PATREON_CREATOR_REFRESH_TOKEN:-}
+      Supporter__Patreon__WebhookSecret: ${PATREON_WEBHOOK_SECRET:?Set PATREON_WEBHOOK_SECRET}
+      Supporter__Patreon__CallbackUri: ${PUBLIC_ORIGIN:?Set PUBLIC_ORIGIN}/auth/patreon/callback
+      Supporter__TrustedProxies__0: ${TRUSTED_PROXY_IP:?Set TRUSTED_PROXY_IP}
+      Supporter__KeyCertificatePath: /run/secrets/keyring.pfx
+      Supporter__KeyCertificatePassword: ${KEY_CERTIFICATE_PASSWORD:?Set KEY_CERTIFICATE_PASSWORD}
+    volumes:
+      - supporter-data:/data
+      - ${KEY_CERTIFICATE_FILE:?Set KEY_CERTIFICATE_FILE}:/run/secrets/keyring.pfx:ro
+      - ./deploy/appsettings.Production.json:/app/appsettings.Production.json:ro
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+volumes:
+  supporter-data:

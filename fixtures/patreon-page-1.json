@@ -1,0 +1,54 @@
+{
+  "data": [
+    {
+      "type": "member",
+      "id": "member-1",
+      "attributes": {
+        "full_name": null,
+        "patron_status": "active_patron",
+        "last_charge_status": "Paid",
+        "campaign_lifetime_support_cents": 500,
+        "currently_entitled_amount_cents": 500,
+        "pledge_relationship_start": "2026-09-05T00:00:00Z"
+      },
+      "relationships": {
+        "campaign": {
+          "data": {
+            "type": "campaign",
+            "id": "fake-campaign"
+          }
+        },
+        "user": {
+          "data": {
+            "type": "user",
+            "id": "masked-user"
+          }
+        },
+        "currently_entitled_tiers": {
+          "data": [
+            {
+              "type": "tier",
+              "id": "tier-a"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "type": "user",
+      "id": "masked-user",
+      "attributes": {
+        "full_name": null
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "cursors": {
+        "next": "cursor&opaque"
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "data": {
+    "type": "user",
+    "id": "masked-user",
+    "attributes": {
+      "full_name": null
+    },
+    "relationships": {
+      "memberships": {
+        "data": [
+          {
+            "type": "member",
+            "id": "member-1"
+          }
+        ]
+      }
+    }
+  },
+  "included": [
+    {
+      "type": "member",
+      "id": "member-1",
+      "attributes": {
+        "full_name": null,
+        "patron_status": "active_patron",
+        "last_charge_status": "Paid",
+        "campaign_lifetime_support_cents": 500,
+        "currently_entitled_amount_cents": 500
+      },
+      "relationships": {
+        "campaign": {
+          "data": {
+            "type": "campaign",
+            "id": "fake-campaign"
+          }
+        },
+        "user": {
+          "data": {
+            "type": "user",
+            "id": "masked-user"
+          }
+        },
+        "currently_entitled_tiers": {
+          "data": [
+            {
+              "type": "tier",
+              "id": "tier-a"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

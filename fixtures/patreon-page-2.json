@@ -1,0 +1,54 @@
+{
+  "data": [
+    {
+      "type": "member",
+      "id": "member-2",
+      "attributes": {
+        "full_name": "Pessoa fictícia",
+        "patron_status": "active_patron",
+        "last_charge_status": "Paid",
+        "campaign_lifetime_support_cents": 500,
+        "currently_entitled_amount_cents": 500,
+        "pledge_relationship_start": null
+      },
+      "relationships": {
+        "campaign": {
+          "data": {
+            "type": "campaign",
+            "id": "fake-campaign"
+          }
+        },
+        "user": {
+          "data": {
+            "type": "user",
+            "id": "second-user"
+          }
+        },
+        "currently_entitled_tiers": {
+          "data": [
+            {
+              "type": "tier",
+              "id": "tier-a"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "type": "user",
+      "id": "second-user",
+      "attributes": {
+        "full_name": "Pessoa fictícia"
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "cursors": {
+        "next": null
+      }
+    }
+  }
+}

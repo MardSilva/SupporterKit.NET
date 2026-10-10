@@ -1,0 +1,71 @@
+# Compilação, pacotes e relatórios gerados
+bin/
+obj/
+artifacts/
+publish/
+TestResults/
+coverage/
+*.nupkg
+*.snupkg
+*.binlog
+
+# Configurações locais dos editores
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Credenciais e configurações privadas; manter os modelos sem segredos
+.env*
+*.env
+!.env.example
+secrets/
+secrets.json
+appsettings.Production.json
+appsettings.Local.json
+appsettings.*.local.json
+appsettings.*.secrets.json
+*.pfx
+*.p12
+*.pem
+*.key
+key-*.xml
+
+# Dados de execução, bancos, logs e backups
+data/
+logs/
+backups/
+backup/
+tmp/
+temp/
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+*.log
+*.bak
+*.tmp
+supporterkit-install*.zip
+
+# Versionar somente as fixtures fictícias necessárias aos testes e à simulação
+/fixtures/*
+!/fixtures/profiles.json
+!/fixtures/patreon-identity.json
+!/fixtures/patreon-page-1.json
+!/fixtures/patreon-page-2.json
+
+# Documentação e instruções mantidas locais pela regra existente
+AGENTS.md
+docs/
+
+# Arquivos auxiliares do sistema operacional
+.DS_Store
+Thumbs.db
+Desktop.ini

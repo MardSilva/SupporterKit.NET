@@ -1,0 +1,33 @@
+@origin = http://localhost:5080
+@key = COLE_A_CHAVE_EMITIDA_NA_PAGINA_LOCAL
+
+### Abrir /dev no navegador para selecionar perfil, emitir chave e copiar.
+GET {{origin}}/health/ready
+
+### Apoio histórico, benefícios confirmados e idade dos dados
+GET {{origin}}/api/v1/supporter/me?productId=flow
+Authorization: Bearer {{key}}
+
+### Opt-in explícito; autenticação por chave dispensa CSRF
+PUT {{origin}}/api/v1/supporter/public-profile
+Authorization: Bearer {{key}}
+Content-Type: application/json
+
+{"optIn":true,"pseudonym":"Perfil de teste"}
+
+### A listagem não expõe IDs externos nem dados de pagamento
+GET {{origin}}/api/v1/supporters?page=1&pageSize=25
+
+### Retirar consentimento
+PUT {{origin}}/api/v1/supporter/public-profile
+Authorization: Bearer {{key}}
+Content-Type: application/json
+
+{"optIn":false,"pseudonym":null}
+
+### Deve devolver 401 mesmo que exista uma sessão de gestão no navegador
+GET {{origin}}/api/v1/supporter/me?productId=flow
+Authorization: Bearer invalid
+
+### Contrato OpenAPI
+GET {{origin}}/openapi/v1.json

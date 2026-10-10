@@ -1,0 +1,12 @@
+.git
+**/bin
+**/obj
+**/data
+artifacts
+.env
+.env.*
+**/*.pfx
+**/*.key
+deploy/appsettings.Production.json
+secrets
+supporterkit-install*.zip

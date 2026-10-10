@@ -1,0 +1,361 @@
+[
+  {
+    "id": "none",
+    "label": "Sem subscrição",
+    "identity": {
+      "userId": "fake-user-none",
+      "displayName": "Perfil none",
+      "membership": null
+    }
+  },
+  {
+    "id": "free",
+    "label": "Free — Gratuito",
+    "tierName": "Free",
+    "monthlyAmountCents": 0,
+    "identity": {
+      "userId": "fake-user-free",
+      "displayName": "Perfil free",
+      "membership": {
+        "userId": "fake-user-free",
+        "displayName": "Perfil free",
+        "campaignId": "fake-campaign",
+        "memberId": "fake-member-free",
+        "patronStatus": null,
+        "lastChargeStatus": null,
+        "lifetimeSupportCents": 0,
+        "entitledAmountCents": 0,
+        "entitledTierIds": [
+          "free"
+        ]
+      }
+    }
+  },
+  {
+    "id": "active-a",
+    "label": "Apoiador — US$ 3 / mês",
+    "tierName": "Apoiador",
+    "monthlyAmountCents": 300,
+    "identity": {
+      "userId": "fake-user-active-a",
+      "displayName": "Perfil active-a",
+      "membership": {
+        "userId": "fake-user-active-a",
+        "displayName": "Perfil active-a",
+        "campaignId": "fake-campaign",
+        "memberId": "fake-member-active-a",
+        "patronStatus": "active_patron",
+        "lastChargeStatus": "Paid",
+        "lifetimeSupportCents": 300,
+        "entitledAmountCents": 300,
+        "entitledTierIds": [
+          "tier-a"
+        ],
+        "supportStartedAt": "2026-10-03T00:00:00Z"
+      }
+    }
+  },
+  {
+    "id": "active-b",
+    "label": "Colaborador — US$ 7 / mês",
+    "tierName": "Colaborador",
+    "monthlyAmountCents": 700,
+    "identity": {
+      "userId": "fake-user-active-b",
+      "displayName": "Perfil active-b",
+      "membership": {
+        "userId": "fake-user-active-b",
+        "displayName": "Perfil active-b",
+        "campaignId": "fake-campaign",
+        "memberId": "fake-member-active-b",
+        "patronStatus": "active_patron",
+        "lastChargeStatus": "Paid",
+        "lifetimeSupportCents": 700,
+        "entitledAmountCents": 700,
+        "entitledTierIds": [
+          "tier-b"
+        ],
+        "supportStartedAt": "2026-09-05T00:00:00Z"
+      }
+    }
+  },
+  {
+    "id": "active-c",
+    "label": "Impulsionador — US$ 15 / mês",
+    "tierName": "Impulsionador",
+    "monthlyAmountCents": 1500,
+    "identity": {
+      "userId": "fake-user-active-c",
+      "displayName": "Perfil active-c",
+      "membership": {
+        "userId": "fake-user-active-c",
+        "displayName": "Perfil active-c",
+        "campaignId": "fake-campaign",
+        "memberId": "fake-member-active-c",
+        "patronStatus": "active_patron",
+        "lastChargeStatus": "Paid",
+        "lifetimeSupportCents": 1500,
+        "entitledAmountCents": 1500,
+        "entitledTierIds": [
+          "tier-c"
+        ],
+        "supportStartedAt": "2025-08-10T00:00:00Z"
+      }
+    }
+  },
+  {
+    "id": "active-extra",
+    "label": "Nível adicional",
+    "identity": {
+      "userId": "fake-user-active-extra",
+      "displayName": "Perfil active-extra",
+      "membership": {
+        "userId": "fake-user-active-extra",
+        "displayName": "Perfil active-extra",
+        "campaignId": "fake-campaign",
+        "memberId": "fake-member-active-extra",
+        "patronStatus": "active_patron",
+        "lastChargeStatus": "Paid",
+        "lifetimeSupportCents": 2000,
+        "entitledAmountCents": 2000,
+        "entitledTierIds": [
+          "tier-extra"
+        ]
+      }
+    }
+  },
+  {
+    "id": "former",
+    "label": "Antigo apoiante",
+    "identity": {
+      "userId": "fake-user-former",
+      "displayName": "Perfil former",
+      "membership": {
+        "userId": "fake-user-former",
+        "displayName": "Perfil former",
+        "campaignId": "fake-campaign",
+        "memberId": "fake-member-former",
+        "patronStatus": "former_patron",
+        "lastChargeStatus": "Paid",
+        "lifetimeSupportCents": 5000,
+        "entitledAmountCents": 0,
+        "entitledTierIds": []
+      }
+    }
+  },
+  {
+    "id": "declined",
+    "label": "Pagamento recusado",
+    "identity": {
+      "userId": "fake-user-declined",
+      "displayName": "Perfil declined",
+      "membership": {
+        "userId": "fake-user-declined",
+        "displayName": "Perfil declined",
+        "campaignId": "fake-campaign",
+        "memberId": "fake-member-declined",
+        "patronStatus": "declined_patron",
+        "lastChargeStatus": "Declined",
+        "lifetimeSupportCents": 500,
+        "entitledAmountCents": 500,
+        "entitledTierIds": [
+          "tier-a"
+        ]
+      }
+    }
+  },
+  {
+    "id": "cancelled-entitled",
+    "label": "Cancelado com entitlement",
+    "identity": {
+      "userId": "fake-user-cancelled-entitled",
+      "displayName": "Perfil cancelled-entitled",
+      "membership": {
+        "userId": "fake-user-cancelled-entitled",
+        "displayName": "Perfil cancelled-entitled",
+        "campaignId": "fake-campaign",
+        "memberId": "fake-member-cancelled-entitled",
+        "patronStatus": "former_patron",
+        "lastChargeStatus": "Paid",
+        "lifetimeSupportCents": 500,
+        "entitledAmountCents": 500,
+        "entitledTierIds": [
+          "tier-a"
+        ]
+      }
+    }
+  },
+  {
+    "id": "changed-tier",
+    "label": "Mudança para B",
+    "identity": {
+      "userId": "fake-user-changed-tier",
+      "displayName": "Perfil changed-tier",
+      "membership": {
+        "userId": "fake-user-changed-tier",
+        "displayName": "Perfil changed-tier",
+        "campaignId": "fake-campaign",
+        "memberId": "fake-member-changed-tier",
+        "patronStatus": "active_patron",
+        "lastChargeStatus": "Paid",
+        "lifetimeSupportCents": 1500,
+        "entitledAmountCents": 1000,
+        "entitledTierIds": [
+          "tier-b"
+        ]
+      }
+    }
+  },
+  {
+    "id": "other-campaign",
+    "label": "Outra campanha",
+    "identity": {
+      "userId": "fake-user-other-campaign",
+      "displayName": "Perfil other-campaign",
+      "membership": {
+        "userId": "fake-user-other-campaign",
+        "displayName": "Perfil other-campaign",
+        "campaignId": "other",
+        "memberId": "fake-member-other-campaign",
+        "patronStatus": "active_patron",
+        "lastChargeStatus": "Paid",
+        "lifetimeSupportCents": 500,
+        "entitledAmountCents": 500,
+        "entitledTierIds": [
+          "tier-a"
+        ]
+      }
+    }
+  },
+  {
+    "id": "anonymous",
+    "label": "Nome oculto",
+    "identity": {
+      "userId": "fake-user-anonymous",
+      "displayName": null,
+      "membership": {
+        "userId": "fake-user-anonymous",
+        "displayName": null,
+        "campaignId": "fake-campaign",
+        "memberId": "fake-member-anonymous",
+        "patronStatus": "active_patron",
+        "lastChargeStatus": "Paid",
+        "lifetimeSupportCents": 500,
+        "entitledAmountCents": 500,
+        "entitledTierIds": [
+          "tier-a"
+        ]
+      }
+    }
+  },
+  {
+    "id": "duration-new",
+    "label": "Tempo: novo apoiante",
+    "identity": {
+      "userId": "fake-user-duration-new",
+      "displayName": "Tempo: novo apoiante",
+      "membership": {
+        "userId": "fake-user-duration-new",
+        "displayName": "Tempo: novo apoiante",
+        "campaignId": "fake-campaign",
+        "memberId": "fake-member-duration-new",
+        "patronStatus": "active_patron",
+        "lastChargeStatus": "Paid",
+        "lifetimeSupportCents": 300,
+        "entitledAmountCents": 300,
+        "entitledTierIds": [
+          "tier-a"
+        ],
+        "supportStartedAt": "2026-10-09T00:00:00Z"
+      }
+    }
+  },
+  {
+    "id": "duration-month",
+    "label": "Tempo: início em setembro de 2026",
+    "identity": {
+      "userId": "fake-user-duration-month",
+      "displayName": "Tempo: início em setembro de 2026",
+      "membership": {
+        "userId": "fake-user-duration-month",
+        "displayName": "Tempo: início em setembro de 2026",
+        "campaignId": "fake-campaign",
+        "memberId": "fake-member-duration-month",
+        "patronStatus": "active_patron",
+        "lastChargeStatus": "Paid",
+        "lifetimeSupportCents": 300,
+        "entitledAmountCents": 300,
+        "entitledTierIds": [
+          "tier-a"
+        ],
+        "supportStartedAt": "2026-09-10T00:00:00Z"
+      }
+    }
+  },
+  {
+    "id": "duration-two-months",
+    "label": "Tempo: início em agosto de 2026",
+    "identity": {
+      "userId": "fake-user-duration-two-months",
+      "displayName": "Tempo: início em agosto de 2026",
+      "membership": {
+        "userId": "fake-user-duration-two-months",
+        "displayName": "Tempo: início em agosto de 2026",
+        "campaignId": "fake-campaign",
+        "memberId": "fake-member-duration-two-months",
+        "patronStatus": "active_patron",
+        "lastChargeStatus": "Paid",
+        "lifetimeSupportCents": 300,
+        "entitledAmountCents": 300,
+        "entitledTierIds": [
+          "tier-a"
+        ],
+        "supportStartedAt": "2026-08-10T00:00:00Z"
+      }
+    }
+  },
+  {
+    "id": "duration-year",
+    "label": "Tempo: início em outubro de 2025",
+    "identity": {
+      "userId": "fake-user-duration-year",
+      "displayName": "Tempo: início em outubro de 2025",
+      "membership": {
+        "userId": "fake-user-duration-year",
+        "displayName": "Tempo: início em outubro de 2025",
+        "campaignId": "fake-campaign",
+        "memberId": "fake-member-duration-year",
+        "patronStatus": "active_patron",
+        "lastChargeStatus": "Paid",
+        "lifetimeSupportCents": 300,
+        "entitledAmountCents": 300,
+        "entitledTierIds": [
+          "tier-a"
+        ],
+        "supportStartedAt": "2025-10-10T00:00:00Z"
+      }
+    }
+  },
+  {
+    "id": "duration-two-years",
+    "label": "Tempo: início em outubro de 2024",
+    "identity": {
+      "userId": "fake-user-duration-two-years",
+      "displayName": "Tempo: início em outubro de 2024",
+      "membership": {
+        "userId": "fake-user-duration-two-years",
+        "displayName": "Tempo: início em outubro de 2024",
+        "campaignId": "fake-campaign",
+        "memberId": "fake-member-duration-two-years",
+        "patronStatus": "active_patron",
+        "lastChargeStatus": "Paid",
+        "lifetimeSupportCents": 300,
+        "entitledAmountCents": 300,
+        "entitledTierIds": [
+          "tier-a"
+        ],
+        "supportStartedAt": "2024-10-10T00:00:00Z"
+      }
+    }
+  }
+]

@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk.Web"><PropertyGroup><TargetFramework>net10.0</TargetFramework><IsPackable>false</IsPackable><UserSecretsId>supporterkit-net-development</UserSecretsId></PropertyGroup><ItemGroup>
+<PackageReference Include="Microsoft.OpenApi" Version="2.7.5" />
+<ProjectReference Include="../Supporter.Infrastructure/Supporter.Infrastructure.csproj" />
+<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.10" />
+<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10" PrivateAssets="all" />
+<Content Include="../../fixtures/profiles.json" Link="fixtures/profiles.json" CopyToOutputDirectory="PreserveNewest" />
+</ItemGroup></Project>

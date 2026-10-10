@@ -1,0 +1,10 @@
+# Combine with compose.yml; requires Docker Compose 2.24.4+ for !reset.
+services:
+  api:
+    ports: !reset []
+    networks:
+      - cosmos-proxy
+networks:
+  cosmos-proxy:
+    external: true
+    name: ${COSMOS_NETWORK:?Set the existing proxy network name}
